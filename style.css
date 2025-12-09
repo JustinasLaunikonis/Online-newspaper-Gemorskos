@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, body{
+    font-family: 'Roboto', 'Segoe UI Light', 'Segoe UI', 'Calibri', Verdana, 'Geneva', 'DejaVu Sans', sans-serif;
+    font-weight: 300;
+}
+
+body{
+    background-color: #333333;
+    color: #dddddd;
+
+    font-weight: 400;
+
+    font-size: 16px;
+    text-decoration: none;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* ========== Header ========== */
+
+header{
+    color: white;
+
+    top: 0;
+    height: 48px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 275px;
+}
+
+.headerTitle{ font-size: 14pt; }
+.headerCaption{ font-size: 12px; }
+
+
+/* ========== Sidebar ========== */
+
+.sidebar{
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+
+    margin: 0;
+    padding: 0;
+
+    width: 250px;
+    height: 100vh;
+
+    left: 0;
+    top: 0;
+
+    background-color: #333333;
+}
+
+.sidebar nav img{ 
+    width: 100%;
+    display: block;
+}
+
+.sidebar nav img[alt="logo"]{
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+    margin: 10px auto;
+    display: block;
+}
+
+.sidebar ul li img{
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+    object-fit: contain;
+}
+
+.sidebar ul li a{
+    text-decoration: none;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    
+    padding: 15px 0 15px 20px;
+}
+
+.sidebar ul li a.selected{
+    color: #5EA8DE;
+    box-shadow: inset 4px 0px 0;
+}
+
+.sidebar ul li{
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover{ background-color: #242424; }
+
+.bottomText{
+    margin-top: auto;
+    text-align: right;
+
+    font-weight: 300;
+    font-size: 12pt;
+
+    color: rgba(255, 255, 255, 0.7);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+    padding: 8px;
+}
+
+.tiny{ font-size: 8pt;}
+
+
+/* ========== Herobox ========== */
+
+.herobox{
+    background-color: #222222;
+    padding: 20px 0 0 275px;
+    width: 100%;
+    height: calc(100vh - 48px);
+
+    color: white;
+}
+
+.herobox h2{ margin-bottom: 25px; }
+
+.herobox a{
+    color: white;
+    text-decoration: none;
+}
