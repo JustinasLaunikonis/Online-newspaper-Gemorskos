@@ -1,15 +1,11 @@
-.herobox{
-    height: calc(200vh - 48px);
-}
+.herobox{ height: calc(200vh - 48px); }
 
 .users-container {
     padding: 40px;
     max-width: 1400px;
 }
 
-.users-header {
-    margin-bottom: 30px;
-}
+.users-header { margin-bottom: 30px; }
 
 .users-header h1 {
     font-size: 36px;
@@ -41,9 +37,7 @@
     font-size: 24px;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
+.form-group { margin-bottom: 20px; }
 
 .form-group label {
     display: block;
@@ -94,9 +88,7 @@
     font-family: inherit;
 }
 
-.submit-btn:hover {
-    background-color: #0f6c18;
-}
+.submit-btn:hover { background-color: #0f6c18; }
 
 .cancel-btn {
     padding: 15px 40px;
@@ -113,9 +105,7 @@
     justify-content: center;
 }
 
-.cancel-btn:hover {
-    background-color: #666666;
-}
+.cancel-btn:hover { background-color: #666666; }
 
 .users-section h2 {
     color: white;
@@ -151,46 +141,19 @@
     color: #dddddd;
 }
 
-.users-table tr:last-child td {
-    border-bottom: none;
-}
-
-.users-table tr:hover {
-    background-color: #2a2a2a;
-}
+.users-table tr:last-child td { border-bottom: none; }
+.users-table tr:hover { background-color: #2a2a2a; }
 
 .role-badge {
     font-size: 14px;
     font-weight: 500;
 }
 
-.role-editor-in-chief {
-    color: #f39c12;
-}
-
-.role-editor {
-    color: #5EA8DE;
-}
-
-.role-administration {
-    color: #9b59b6;
-}
-
-.role-finance {
-    color: #27ae60;
-}
-
-.role-advertising {
-    color: #e74c3c;
-}
-
-.role-printing {
-    color: #95a5a6;
-}
-
-.role-distribution {
-    color: #3498db;
-}
+.role-editor-in-chief { color: #f39c12; }
+.role-editor { color: #5EA8DE; }
+.role-administration { color: #9b59b6; }
+.role-journalist_photographer { color: #27ae60; }
+.role-web-designer { color: #e74c3c; }
 
 .edit-btn {
     padding: 8px 16px;
@@ -207,9 +170,7 @@
     margin-right: 8px;
 }
 
-.edit-btn:hover {
-    background-color: #4a8bb8;
-}
+.edit-btn:hover {  background-color: #4a8bb8; }
 
 .delete-btn {
     padding: 8px 16px;
@@ -223,9 +184,7 @@
     font-family: inherit;
 }
 
-.delete-btn:hover {
-    background-color: #b71c1c;
-}
+.delete-btn:hover { background-color: #b71c1c; }
 
 .no-users {
     text-align: center;
