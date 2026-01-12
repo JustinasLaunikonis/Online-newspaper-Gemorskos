@@ -99,11 +99,14 @@ body{
     line-height: 24px;
 }
 
-.login-form button[type="submit"] {
-    align-self: flex-start;
-    
-    padding: 15px 40px;
+.button-group {
+    display: flex;
+    gap: 15px;
     margin-top: 10px;
+}
+
+.login-form button[type="submit"] {
+    padding: 15px 40px;
 
     background-color: #159922;
     color: white;
@@ -112,13 +115,35 @@ body{
     border-radius: 5px;
 
     font-size: 18px;
-    
     cursor: pointer;
 
     transition: background-color 0.3s;
 }
 
 .login-form button[type="submit"]:hover { background-color: #0f6c18; }
+
+.signup-btn {
+    padding: 15px 40px;
+
+    background-color: #555555;
+    color: white;
+
+    border: none;
+    border-radius: 5px;
+
+    font-size: 18px;
+    text-decoration: none;
+    
+    cursor: pointer;
+
+    transition: background-color 0.3s;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-btn:hover { background-color: #666666; }
 
 .switch {
     position: relative;

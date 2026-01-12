@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+// Database connection
+try {
+    $dbHandler = new PDO("mysql:host=mysql;dbname=gemorskos;charset=utf8", "root", "qwerty");
+    $dbHandler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $exception) {
+    die("Connection error: " . $exception->getMessage());
+}
+
 $savedUsername = $_COOKIE['saved_username'] ?? '';
 $savedPassword = $_COOKIE['saved_password'] ?? '';
 
@@ -9,22 +17,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $remember = isset($_POST['remember']);
 
-    if ($username === 'admin' && $password === 'qwerty') {
-        $_SESSION['user'] = $username;
-        
-        if ($remember) {
-            setcookie('saved_username', $username, time() + (30 * 24 * 60 * 60), '/');
-            setcookie('saved_password', $password, time() + (30 * 24 * 60 * 60), '/');
+    // Query database for user
+    try {
+        $stmt = $dbHandler->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && $user['password'] === $password) {
+            $_SESSION['user'] = $username;
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_role'] = $user['role'];
+            $_SESSION['user_fname'] = $user['fname'];
+            $_SESSION['user_lname'] = $user['lname'];
+            
+            if ($remember) {
+                setcookie('saved_username', $username, time() + (30 * 24 * 60 * 60), '/');
+                setcookie('saved_password', $password, time() + (30 * 24 * 60 * 60), '/');
+            } else {
+                // clear cookies if 'remember me' is disabled
+                setcookie('saved_username', '', time() - 3600, '/');
+                setcookie('saved_password', '', time() - 3600, '/');
+            }
+            
+            header('Location: website/welcome.php');
+            exit();
         } else {
-            // clear cookies if 'remember me' is disabled
-            setcookie('saved_username', '', time() - 3600, '/');
-            setcookie('saved_password', '', time() - 3600, '/');
+            $error = "Invalid username or password";
         }
-        
-        header('Location: file_manager/file_manager.php');
-        exit();
-    } else {
-        $error = "Invalid username or password";
+    } catch(PDOException $e) {
+        $error = "Login error: " . $e->getMessage();
     }
 }
 ?>
@@ -35,13 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../style_login.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_login.css">
 </head>
 <body>
+
     <div class="hero">
         <div>
-            <img src="../assets/logo.png" alt="Logo">
+            <img src="assets/logo.png" alt="Logo">
             <h3>Welcome to Gemorskos</h3>
             <p>Online Newspaper Management</p>
             <small>&copy;Gemorskos</small>
@@ -71,7 +93,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p>Remember Me</p>
             </div>
 
-            <button type="submit">Login</button>
+            <div class="button-group">
+                <button type="submit">Login</button>
+                <a href="website/signup.php" class="signup-btn">Sign Up</a>
+            </div>
             </form>
         </div>
     </div>
