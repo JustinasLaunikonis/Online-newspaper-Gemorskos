@@ -1,7 +1,6 @@
 <?php
     session_start();
     
-    // Only Editor in Chief can access this page
     if (($_SESSION['user_role'] ?? '') !== 'Editor in Chief') {
         header('Location: welcome.php');
         exit();
@@ -20,31 +19,48 @@
     $success = '';
     $error = '';
 
-    // Handle role update
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
         $user_id = $_POST['user_id'] ?? 0;
+        $username = trim($_POST['username'] ?? '');
+        $fname = trim($_POST['fname'] ?? '');
+        $lname = trim($_POST['lname'] ?? '');
         $new_role = $_POST['role'] ?? '';
         
-        if (empty($new_role)) {
-            $errors['role'] = 'Please select a role.';
+        if (empty($username)) { $errors['username'] = 'Username is required.'; }
+        if (empty($fname)) { $errors['fname'] = 'First name is required.'; }
+        if (empty($lname)) { $errors['lname'] = 'Last name is required.'; }
+        if (empty($new_role)) { $errors['role'] = 'Please select a role.'; }
+
+        if (empty($errors['username'])) {
+            try {
+                $stmt = $dbHandler->prepare("SELECT id FROM users WHERE username = :username AND id != :user_id");
+                $stmt->execute(['username' => $username, 'user_id' => $user_id]);
+                if ($stmt->fetch()) {
+                    $errors['username'] = 'Username is already taken.';
+                }
+            } catch(PDOException $e) {
+                $error = "Error checking username: " . $e->getMessage();
+            }
         }
 
         if (empty($errors)) {
             try {
-                $stmt = $dbHandler->prepare("UPDATE users SET role = :role WHERE id = :user_id");
+                $stmt = $dbHandler->prepare("UPDATE users SET username = :username, fname = :fname, lname = :lname, role = :role WHERE id = :user_id");
                 $stmt->execute([
+                    'username' => $username,
+                    'fname' => $fname,
+                    'lname' => $lname,
                     'role' => $new_role,
                     'user_id' => $user_id
                 ]);
                 header('Location: users.php?success=updated');
                 exit();
             } catch(PDOException $e) {
-                $error = "Error updating user role: " . $e->getMessage();
+                $error = "Error updating user: " . $e->getMessage();
             }
         }
     }
 
-    // Handle user deletion
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_user'])) {
         $user_id = $_POST['user_id'] ?? 0;
         $current_user_id = $_SESSION['user_id'] ?? 0;
@@ -53,11 +69,9 @@
             $error = "You cannot delete your own account.";
         } else {
             try {
-                // First delete all articles by this user
                 $stmt = $dbHandler->prepare("DELETE FROM articles WHERE author_id = :user_id");
                 $stmt->execute(['user_id' => $user_id]);
                 
-                // Then delete the user
                 $stmt = $dbHandler->prepare("DELETE FROM users WHERE id = :user_id");
                 $stmt->execute(['user_id' => $user_id]);
                 
@@ -69,20 +83,28 @@
         }
     }
 
-    // Handle edit mode
     $editUser = null;
-    if (isset($_GET['edit'])) {
-        $edit_id = $_GET['edit'];
-        try {
-            $stmt = $dbHandler->prepare("SELECT id, username, fname, lname, role FROM users WHERE id = :user_id");
-            $stmt->execute(['user_id' => $edit_id]);
-            $editUser = $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch(PDOException $e) {
-            $error = "Error fetching user: " . $e->getMessage();
+    if (isset($_GET['edit']) || (!empty($errors) && isset($_POST['user_id']))) {
+        if (!empty($errors) && isset($_POST['user_id'])) {
+            $editUser = [
+                'id' => $_POST['user_id'],
+                'username' => $_POST['username'] ?? '',
+                'fname' => $_POST['fname'] ?? '',
+                'lname' => $_POST['lname'] ?? '',
+                'role' => $_POST['role'] ?? ''
+            ];
+        } else {
+            $edit_id = $_GET['edit'];
+            try {
+                $stmt = $dbHandler->prepare("SELECT id, username, fname, lname, role FROM users WHERE id = :user_id");
+                $stmt->execute(['user_id' => $edit_id]);
+                $editUser = $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch(PDOException $e) {
+                $error = "Error fetching user: " . $e->getMessage();
+            }
         }
     }
 
-    // Get all users with their article count
     try {
         $stmt = $dbHandler->prepare("
             SELECT u.id, u.username, u.fname, u.lname, u.role, COUNT(a.article_id) as article_count
@@ -98,7 +120,6 @@
         $users = [];
     }
 
-    // Success messages
     if (isset($_GET['success'])) {
         if ($_GET['success'] === 'updated') {
             $success = "User role updated successfully!";
@@ -111,7 +132,6 @@
     $faviconPath = "../assets/sidebar/gemorskos.png";
 
     require_once '../components/config.php';
-    $currentPage = "Users";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,39 +168,50 @@
 
             <?php if ($editUser): ?>
                 <div class="edit-form">
-                    <h3>Edit User Role</h3>
+                    <h3>Edit User</h3>
                     <form method="POST" action="users.php">
                         <input type="hidden" name="user_id" value="<?php echo $editUser['id']; ?>">
                         
                         <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" value="<?php echo htmlspecialchars($editUser['username']); ?>" disabled>
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" value="<?php echo htmlspecialchars($editUser['username']); ?>">
+                            <?php if (isset($errors['username'])): ?>
+                                <div class="field-error"><?php echo $errors['username']; ?></div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" value="<?php echo htmlspecialchars($editUser['fname'] . ' ' . $editUser['lname']); ?>" disabled>
+                            <label for="fname">First Name</label>
+                            <input type="text" name="fname" id="fname" value="<?php echo htmlspecialchars($editUser['fname']); ?>">
+                            <?php if (isset($errors['fname'])): ?>
+                                <div class="field-error"><?php echo $errors['fname']; ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input type="text" name="lname" id="lname" value="<?php echo htmlspecialchars($editUser['lname']); ?>">
+                            <?php if (isset($errors['lname'])): ?>
+                                <div class="field-error"><?php echo $errors['lname']; ?></div>
+                            <?php endif; ?>
                         </div>
 
                         <div class="form-group">
                             <label for="role">Role</label>
                             <select name="role" id="role">
-                                <option value="">Select Role</option>
                                 <option value="Editor in Chief" <?php echo $editUser['role'] === 'Editor in Chief' ? 'selected' : ''; ?>>Editor in Chief</option>
                                 <option value="Editor" <?php echo $editUser['role'] === 'Editor' ? 'selected' : ''; ?>>Editor</option>
                                 <option value="Administration" <?php echo $editUser['role'] === 'Administration' ? 'selected' : ''; ?>>Administration</option>
-                                <option value="Finance" <?php echo $editUser['role'] === 'Finance' ? 'selected' : ''; ?>>Finance</option>
-                                <option value="Advertising" <?php echo $editUser['role'] === 'Advertising' ? 'selected' : ''; ?>>Advertising</option>
-                                <option value="Printing" <?php echo $editUser['role'] === 'Printing' ? 'selected' : ''; ?>>Printing</option>
-                                <option value="Distribution" <?php echo $editUser['role'] === 'Distribution' ? 'selected' : ''; ?>>Distribution</option>
-                            </select>
+                                <option value="Web Designer" <?php echo $editUser['role'] === 'Web Designer' ? 'selected' : ''; ?>>Web Designer</option>
+                                <option value="Journalist/Photographer" <?php echo $editUser['role'] === 'Journalist/Photographer' ? 'selected' : ''; ?>>Journalist/Photographer</option>
+                                </select>
                             <?php if (isset($errors['role'])): ?>
                                 <div class="field-error"><?php echo $errors['role']; ?></div>
                             <?php endif; ?>
                         </div>
 
                         <div class="form-actions">
-                            <button type="submit" name="update_role" class="submit-btn">Update Role</button>
+                            <button type="submit" name="update_role" class="submit-btn">Update User</button>
                             <a href="users.php" class="cancel-btn">Cancel</a>
                         </div>
                     </form>
@@ -214,13 +245,13 @@
                                         <td><strong><?php echo htmlspecialchars($user['username']); ?></strong></td>
                                         <td><?php echo htmlspecialchars($user['fname'] . ' ' . $user['lname']); ?></td>
                                         <td>
-                                            <span class="role-badge role-<?php echo strtolower(str_replace(' ', '-', $user['role'])); ?>">
+                                            <span class="role-badge role-<?php echo strtolower(str_replace(['/', ' '], ['_', '-'], $user['role'])); ?>">
                                                 <?php echo htmlspecialchars($user['role']); ?>
                                             </span>
                                         </td>
                                         <td><?php echo $user['article_count']; ?></td>
                                         <td>
-                                            <a href="users.php?edit=<?php echo $user['id']; ?>" class="edit-btn">Edit Role</a>
+                                            <a href="users.php?edit=<?php echo $user['id']; ?>" class="edit-btn">Edit</a>
                                             
                                             <?php if ($user['id'] != $currentUserId): ?>
                                                 <form method="POST" action="users.php" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user? This will also delete all their articles.');">

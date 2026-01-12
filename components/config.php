@@ -12,6 +12,11 @@ if (in_array($userRole, ['Editor in Chief', 'Editor'])) {
     $navigation[] = "Editorial";
 }
 
+// Add Users for Editor in Chief only
+if ($userRole === 'Editor in Chief') {
+    $navigation[] = "Users";
+}
+
 // Add remaining navigation items
 $navigation = array_merge($navigation, [
     "Database",
@@ -27,6 +32,10 @@ if (in_array($userRole, ['Editor in Chief', 'Editor'])) {
     $navigationLink[] = "editorial.php";
 }
 
+if ($userRole === 'Editor in Chief') {
+    $navigationLink[] = "users.php";
+}
+
 $navigationLink = array_merge($navigationLink, [
     "database.php",
     "logout.php"
@@ -39,6 +48,10 @@ $navigationLogo  = [
 
 if (in_array($userRole, ['Editor in Chief', 'Editor'])) {
     $navigationLogo[] = "editorial.png";
+}
+
+if ($userRole === 'Editor in Chief') {
+    $navigationLogo[] = "users.png";
 }
 
 $navigationLogo = array_merge($navigationLogo, [
