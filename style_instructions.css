@@ -1,0 +1,229 @@
+.herobox { height: calc(200vh - 48px); }
+
+.instructions-container {
+    padding: 40px;
+    max-width: 1400px;
+}
+
+.instructions-header {
+    margin-bottom: 30px;
+}
+
+.instructions-header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.instructions-header p {
+    color: #999999;
+    font-size: 16px;
+}
+
+.section-divider {
+    margin: 40px 0;
+    border-bottom: 2px solid #444444;
+}
+
+.instruction-form {
+    background-color: #333333;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.instruction-form h3 {
+    color: #5EA8DE;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+    display: block;
+    color: white;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    background-color: #222222;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #159922;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    padding: 15px 40px;
+    background-color: #159922;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: inherit;
+}
+
+.submit-btn:hover { background-color: #0f6c18; }
+
+.cancel-btn {
+    padding: 15px 40px;
+    background-color: #555555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancel-btn:hover { background-color: #666666; }
+
+.instructions-section h2 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.instructions-table {
+    width: 100%;
+    background-color: #333333;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.instructions-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.instructions-table th {
+    background-color: #2a2a2a;
+    color: #5EA8DE;
+    padding: 15px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.instructions-table td {
+    padding: 15px;
+    border-bottom: 1px solid #444444;
+    color: #dddddd;
+}
+
+.instructions-table tr:last-child td { border-bottom: none; }
+.instructions-table tr:hover { background-color: #2a2a2a; }
+
+.message-cell {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.priority-badge {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.edit-btn {
+    padding: 8px 16px;
+    background-color: #5EA8DE;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: inherit;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.edit-btn:hover { background-color: #4a8bb8; }
+
+.delete-btn {
+    padding: 8px 16px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: inherit;
+}
+
+.delete-btn:hover { background-color: #b71c1c; }
+
+.no-instructions {
+    text-align: center;
+    padding: 40px;
+    color: #999999;
+    font-size: 18px;
+}
+
+.message {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.message.success {
+    background-color: #1e3a1e;
+    color: #4caf50;
+}
+
+.message.error {
+    background-color: #4a2525;
+    color: #ff6b6b;
+}
+
+.field-error {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-top: 5px;
+}
