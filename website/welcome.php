@@ -2,7 +2,6 @@
     session_start();
     require_once '../components/layout.php';
 
-    // Database connection
     try {
         $dbHandler = new PDO("mysql:host=mysql;dbname=gemorskos;charset=utf8", "root", "qwerty");
         $dbHandler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -10,18 +9,37 @@
         die("Connection error: " . $exception->getMessage());
     }
 
-    // Get user info from session
     $fname = $_SESSION['user_fname'] ?? 'User';
     $lname = $_SESSION['user_lname'] ?? '';
     $username = $_SESSION['user'] ?? 'guest';
     $role = $_SESSION['user_role'] ?? 'Unknown';
     $user_id = $_SESSION['user_id'] ?? 0;
 
-    // Get total number of users
     $totalUsers = $dbHandler->query("SELECT COUNT(*) FROM users")->fetchColumn();
 
-    // Get user's join position (simulated by ID)
-    $joinDate = date('F Y'); // You could store this in the database
+    $joinDate = date('F Y');
+
+    try {
+        $stmt = $dbHandler->prepare("
+            SELECT i.instructions_id, i.message_text, i.priority, i.due_date, i.created_at,
+                   s.fname as sender_fname, s.lname as sender_lname
+            FROM instructions i
+            LEFT JOIN users s ON i.sender_id = s.id
+            WHERE i.recipient_role = :role
+            ORDER BY 
+                CASE i.priority
+                    WHEN 'urgent' THEN 1
+                    WHEN 'high' THEN 2
+                    WHEN 'medium' THEN 3
+                    WHEN 'low' THEN 4
+                END,
+                i.due_date ASC
+        ");
+        $stmt->execute(['role' => $role]);
+        $userInstructions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch(PDOException $e) {
+        $userInstructions = [];
+    }
 
     $faviconPath = "../assets/sidebar/file_manager.png";
 ?>
@@ -98,6 +116,38 @@
                     </p>
                 </div>
             </div>
+
+            <?php if (count($userInstructions) > 0): ?>
+                <div class="instructions-section">
+                    <h3>Your Instructions (<?php echo count($userInstructions); ?>)</h3>
+                    <div class="instructions-list">
+                        <?php foreach ($userInstructions as $instruction): 
+                            $isOverdue = strtotime($instruction['due_date']) < strtotime('today');
+                        ?>
+                            <div class="instruction-card priority-<?php echo $instruction['priority']; ?>">
+                                <div class="instruction-header">
+                                    <span class="priority-badge priority-<?php echo $instruction['priority']; ?>">
+                                        <?php echo htmlspecialchars(ucfirst($instruction['priority'])); ?>
+                                    </span>
+                                    <span class="instruction-date <?php echo $isOverdue ? 'overdue' : ''; ?>">
+                                        Due: <?php echo date('M d, Y', strtotime($instruction['due_date'])); ?>
+                                        <?php if ($isOverdue): ?>
+                                            <span class="overdue-label">OVERDUE</span>
+                                        <?php endif; ?>
+                                    </span>
+                                </div>
+                                <div class="instruction-message">
+                                    <?php echo nl2br(htmlspecialchars($instruction['message_text'])); ?>
+                                </div>
+                                <div class="instruction-footer">
+                                    <span class="instruction-from">From: <?php echo htmlspecialchars($instruction['sender_fname'] . ' ' . $instruction['sender_lname']); ?></span>
+                                    <span class="instruction-created">Created: <?php echo date('M d, Y', strtotime($instruction['created_at'])); ?></span>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
 
             <div class="quick-actions">
                 <h3>Quick Actions</h3>

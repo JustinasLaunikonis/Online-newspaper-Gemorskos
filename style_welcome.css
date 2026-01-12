@@ -1,4 +1,4 @@
-.herobox{ height: calc(110vh - 48px); }
+.herobox{ height: calc(200vh - 48px); }
 
 .welcome-container {
     padding: 40px;
@@ -125,3 +125,71 @@
     color: #999999;
     font-size: 14px;
 }
+
+.instructions-section { margin-bottom: 40px; }
+
+.instructions-section h3 {
+    font-size: 28px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.instructions-list {
+    display: grid;
+    gap: 20px;
+}
+
+.instruction-card {
+    background-color: #333333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #3498db;
+}
+
+.instruction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.instruction-date {
+    font-size: 14px;
+    color: #999999;
+}
+
+.instruction-date.overdue {
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+.overdue-label {
+    background-color: #e74c3c;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    margin-left: 8px;
+}
+
+.instruction-message {
+    color: #dddddd;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.instruction-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #888888;
+    border-top: 1px solid #444444;
+    padding-top: 12px;
+}
+
+.instruction-from { color: #5EA8DE; }
+.instruction-created { color: #888888; }
