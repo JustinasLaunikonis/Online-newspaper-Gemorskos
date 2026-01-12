@@ -11,17 +11,18 @@ $pageTitle = ($currentPageIndex !== false) ? $navigation[$currentPageIndex] : ''
 function renderHeader($pageTitle){
     echo '<header>';
     echo '<h2 class="headerTitle">'.htmlspecialchars($pageTitle).'</h2>';
-    echo '<h4 class="headerCaption">Online Newspaper - Gemorskos</h4>';
+    echo '<h4 class="headerCaption">Online Newspaper - Gemorskos </h4>';
+    echo '<h4 class="headerCaption">Logged in as - '.htmlspecialchars($_SESSION['user'] ?? 'User').'</h4>';
     echo '</header>';
 }
 
 function renderSidebar($navigation, $navigationLink, $navigationLogo, $currentPage){
     echo '<aside class="sidebar"><nav>';
-    echo '<img src="../../assets/logo.png" alt="logo">';
+    echo '<img src="../assets/logo.png" alt="logo">';
     echo '<ul>';
     foreach($navigation as $i => $label){
-        $link = '../../website/' . $navigationLink[$i];
-        $icon = '../../assets/sidebar/' . basename($navigationLogo[$i]);
+        $link = '../website/' . $navigationLink[$i];
+        $icon = '../assets/sidebar/' . basename($navigationLogo[$i]);
         $alt  = strtolower(str_replace(' ', '_', $label));
         $selected = (basename($navigationLink[$i]) === basename($currentPage));
 

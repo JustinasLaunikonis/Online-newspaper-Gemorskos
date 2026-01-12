@@ -31,7 +31,7 @@ header{
     color: white;
 
     top: 0;
-    height: 48px;
+    height: 72px;
     width: 100%;
 
     display: flex;
@@ -140,3 +140,75 @@ header{
     color: white;
     text-decoration: none;
 }
+
+/* ========== Logout ========== */
+
+.logout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+}
+
+.logout-box {
+    background-color: #333333;
+    padding: 60px 80px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    max-width: 500px;
+}
+
+.logout-box h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.logout-box p {
+    font-size: 18px;
+    color: #dddddd;
+    margin-bottom: 40px;
+}
+
+.logout-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.logout-btn {
+    padding: 15px 40px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: inherit;
+}
+
+.logout-btn:hover { background-color: #b71c1c; }
+
+.cancel-btn,
+.database-btn {
+    padding: 15px 40px;
+    background-color: #555555;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.database-btn { background-color: #159922; }
+
+.cancel-btn:hover { background-color: #666666;}
+.database-btn:hover { background-color: #0f6c18; }
