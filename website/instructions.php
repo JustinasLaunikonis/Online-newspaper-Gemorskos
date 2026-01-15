@@ -149,7 +149,7 @@
     }
 
     $pageTitle = "Instructions Management";
-    $faviconPath = "../assets/sidebar/gemorskos.png";
+    $faviconPath = "../assets/sidebar/instructions.png";
 
     require_once '../components/config.php';
 ?>

@@ -50,6 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$faviconPath = "../assets/sidebar/users.png";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,6 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../style_login.css">
+
+    <link rel="icon" type="image/x-icon" href="<?php echo $faviconPath; ?>">
 </head>
 <body>
 

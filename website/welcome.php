@@ -41,7 +41,7 @@
         $userInstructions = [];
     }
 
-    $faviconPath = "../assets/sidebar/file_manager.png";
+    $faviconPath = "../assets/sidebar/welcome.png";
 ?>
 
 <!DOCTYPE html>

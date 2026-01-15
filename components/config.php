@@ -15,6 +15,7 @@ if ($userRole === 'Editor in Chief') {
 }
 
 $navigation = array_merge($navigation, [
+    "Clients",
     "Database",
     "Logout"
 ]);
@@ -33,6 +34,7 @@ if ($userRole === 'Editor in Chief') {
 }
 
 $navigationLink = array_merge($navigationLink, [
+    "clients.php",
     "database.php",
     "logout.php"
 ]);
@@ -51,6 +53,7 @@ if ($userRole === 'Editor in Chief') {
 }
 
 $navigationLogo = array_merge($navigationLogo, [
+    "clients.png",
     "database.png",
     "logout.png"
 ]);
