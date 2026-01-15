@@ -129,7 +129,7 @@
     }
 
     $pageTitle = "User Management";
-    $faviconPath = "../assets/sidebar/gemorskos.png";
+    $faviconPath = "../assets/sidebar/users.png";
 
     require_once '../components/config.php';
 ?>

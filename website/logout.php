@@ -8,7 +8,7 @@
         exit();
     }
 
-    $faviconPath = "../assets/sidebar/users.png";
+    $faviconPath = "../assets/sidebar/logout.png";
 ?>
 
 <!DOCTYPE html>

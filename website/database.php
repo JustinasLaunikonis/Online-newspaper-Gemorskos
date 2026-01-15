@@ -2,7 +2,7 @@
     session_start();
     require_once '../components/layout.php';
 
-    $faviconPath = "../assets/sidebar/users.png";
+    $faviconPath = "../assets/sidebar/database.png";
 ?>
 
 <!DOCTYPE html>
